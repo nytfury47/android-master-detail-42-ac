@@ -22,6 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
 }
 
 dependencies {
@@ -30,11 +35,13 @@ dependencies {
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
 
     testImplementation "junit:junit:$junitVersion"
     //testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
-
     //androidTestImplementation "androidx.test:runner:$androidXTestVersion"
     androidTestImplementation "androidx.test.ext:junit:$runnerExtVersion"
     //androidTestImplementation "androidx.test:rules:$androidXTestVersion"

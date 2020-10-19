@@ -20,6 +20,9 @@ buildscript {
         //rulesVersion = '1.0.1'
         appCompatVersion = '1.2.0'
         //supportLibraryVersion = '1.0.2'
+        recyclerviewVersion = '1.1.0'
+        picassoVersion = '2.5.2'
+        okhttpVersion = '3.14.1'
         archLifecycleVersion = '2.1.0-alpha04'
     }
     repositories {
