@@ -14,12 +14,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import com.tan.master_detail42_ac.R
 import com.tan.master_detail42_ac.data.AppPreferences
+import com.tan.master_detail42_ac.data.MasterViewModel
 import com.tan.master_detail42_ac.data.Track
 import com.tan.master_detail42_ac.data.TrackRequester
-import java.text.SimpleDateFormat
-import java.util.*
+import com.tan.master_detail42_ac.databinding.ActivityMasterBinding
 
 /**
  * Activity class for the master view of the track list from iTunes Search API
@@ -33,17 +35,18 @@ class ActivityMaster : AppCompatActivity(), TrackRequester.TrackRequesterRespons
     private lateinit var trackRequester: TrackRequester
     private var doubleBackToExitPressedOnce = false
 
+    // Obtain ViewModel from ViewModelProviders
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(MasterViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_master)
-
-        // Initialize AppPreferences (Persistence)
-        AppPreferences.init(this)
 
         // Last visit info
-        val lastVisit = if (AppPreferences.lastVisit.isNullOrEmpty()) getCurrentDateTime() else AppPreferences.lastVisit
-        textViewLastVisit.text = String.format(getString(R.string.main_activity_last_visit), lastVisit)
-        AppPreferences.lastVisit = getCurrentDateTime()
+        val binding: ActivityMasterBinding = DataBindingUtil.setContentView(this, R.layout.activity_master)
+        binding.lifecycleOwner = this  // use Fragment.viewLifecycleOwner for fragments
+        binding.viewmodel = viewModel
 
         // Setup master view's components
         title = String.format(getString(R.string.main_activity_title), trackList.size)
@@ -163,11 +166,6 @@ class ActivityMaster : AppCompatActivity(), TrackRequester.TrackRequesterRespons
 
         return result
     }
-
-    /**
-     * Helper function for getting the date/time the user last visited the app
-     */
-    private fun getCurrentDateTime() = SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.getDefault()).format(Calendar.getInstance().time)
 
     companion object {
         private const val DELAY_EXIT = 2000L

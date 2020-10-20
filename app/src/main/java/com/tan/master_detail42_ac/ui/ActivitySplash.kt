@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 import com.tan.master_detail42_ac.R
+import com.tan.master_detail42_ac.data.AppPreferences
 import kotlinx.android.synthetic.main.activity_splash.*
 
 /**
@@ -20,6 +21,9 @@ class ActivitySplash : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        // Initialize AppPreferences (Persistence)
+        AppPreferences.init(this)
     }
 
     override fun onStart() {
