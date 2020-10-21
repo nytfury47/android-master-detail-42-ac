@@ -25,7 +25,7 @@ buildscript {
         recyclerviewVersion = '1.1.0'
         picassoVersion = '2.5.2'
         okhttpVersion = '3.14.1'
-        archLifecycleVersion = '2.1.0-alpha04'
+        archLifecycleVersion = '2.2.0'
     }
     repositories {
         google()

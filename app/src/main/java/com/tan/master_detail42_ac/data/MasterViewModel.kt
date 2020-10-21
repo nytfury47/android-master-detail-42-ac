@@ -3,32 +3,42 @@ package com.tan.master_detail42_ac.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 /**
  * A VM for [com.tan.master_detail42_ac.ui.ActivityMaster].
  */
-class MasterViewModel : ViewModel() {
-    private val _lastVisit = MutableLiveData(AppPreferences.lastVisit)
-    private val _name = MutableLiveData("Ada")
-    private val _lastName = MutableLiveData("Lovelace")
-    private val _likes =  MutableLiveData(0)
+class MasterViewModel : ViewModel(), TrackRequester.TrackRequesterResponse {
+    private val _trackList = MutableLiveData<List<Track>>(listOf())
+    private val _eventTrackListLoadFinish = MutableLiveData<Boolean?>(null)
 
-    val lastVisit: LiveData<String> = _lastVisit
-    //val name: LiveData<String> = _name
-    //val lastName: LiveData<String> = _lastName
-    //val likes: LiveData<Int> = _likes
+    val lastVisit = AppPreferences.lastVisit
+    val trackList: LiveData<List<Track>> = _trackList
+    val eventTrackListLoadFinish: LiveData<Boolean?> = _eventTrackListLoadFinish
 
-    // popularity is exposed as LiveData using a Transformation instead of a @Bindable property.
-//    val popularity: LiveData<Popularity> = Transformations.map(_likes) {
-//        when {
-//            it > 9 -> Popularity.STAR
-//            it > 4 -> Popularity.POPULAR
-//            else -> Popularity.NORMAL
-//        }
-//    }
+    init {
+        loadTrackList()
+    }
 
-    fun onLike() {
-        _likes.value = (_likes.value ?: 0) + 1
+    private fun loadTrackList() {
+        val trackRequester = TrackRequester(this)
+
+        viewModelScope.launch {
+            trackRequester.getTrack()
+        }
+    }
+
+    fun onTrackListLoadFinishComplete() {
+        _eventTrackListLoadFinish.value = false
+    }
+
+    /**
+     * Result of fetching track list
+     */
+    override fun receivedNewTrackList(newTrackList: ArrayList<Track>) {
+        _trackList.postValue(newTrackList)
+        _eventTrackListLoadFinish.postValue(true)
     }
 
 }

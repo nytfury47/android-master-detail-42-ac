@@ -1,7 +1,7 @@
 package com.tan.master_detail42_ac.data
 
-import android.app.Activity
 import android.net.Uri.Builder
+import androidx.lifecycle.ViewModel
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -12,7 +12,7 @@ import java.util.ArrayList
 /**
  * Class for handling the search API request
  */
-class TrackRequester(listeningActivity: Activity) {
+class TrackRequester(listeningVM: ViewModel) {
 
     interface TrackRequesterResponse {
         fun receivedNewTrackList(newTrackList: ArrayList<Track>)
@@ -22,7 +22,7 @@ class TrackRequester(listeningActivity: Activity) {
     private val client: OkHttpClient
 
     init {
-        responseListener = listeningActivity as TrackRequesterResponse
+        responseListener = listeningVM as TrackRequesterResponse
         client = OkHttpClient()
     }
 

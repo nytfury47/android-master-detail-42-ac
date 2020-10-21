@@ -7,69 +7,60 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_master.*
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
+import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.tan.master_detail42_ac.R
 import com.tan.master_detail42_ac.data.AppPreferences
 import com.tan.master_detail42_ac.data.MasterViewModel
-import com.tan.master_detail42_ac.data.Track
-import com.tan.master_detail42_ac.data.TrackRequester
 import com.tan.master_detail42_ac.databinding.ActivityMasterBinding
 
 /**
  * Activity class for the master view of the track list from iTunes Search API
  */
-class ActivityMaster : AppCompatActivity(), TrackRequester.TrackRequesterResponse {
-
+class ActivityMaster : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var gridLayoutManager: GridLayoutManager
-    private lateinit var adapter: RecyclerAdapter
-    private var trackList: ArrayList<Track> = ArrayList()
-    private lateinit var trackRequester: TrackRequester
     private var doubleBackToExitPressedOnce = false
 
     // Obtain ViewModel from ViewModelProviders
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(MasterViewModel::class.java)
+        ViewModelProvider(this).get(MasterViewModel::class.java)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Last visit info
         val binding: ActivityMasterBinding = DataBindingUtil.setContentView(this, R.layout.activity_master)
         binding.lifecycleOwner = this  // use Fragment.viewLifecycleOwner for fragments
         binding.viewmodel = viewModel
 
         // Setup master view's components
-        title = String.format(getString(R.string.main_activity_title), trackList.size)
+        updateActivityTitle()
 
+        // RecyclerView
+        val adapter = RecyclerAdapter(viewModel, this)
         linearLayoutManager = LinearLayoutManager(this)
         gridLayoutManager = GridLayoutManager(this, 3)
-
-        // Use last layout used
         recyclerView.layoutManager = if (AppPreferences.isGridLayout) gridLayoutManager else linearLayoutManager
-        adapter = RecyclerAdapter(trackList)
         recyclerView.adapter = adapter
 
-        trackRequester = TrackRequester(this)
-    }
+        // Observer for trackList
+        viewModel.trackList.observe(this, {
+            adapter.notifyDataSetChanged()
+        })
 
-    override fun onStart() {
-        super.onStart()
-
-        // Start request for track list
-        if (trackList.size == 0) {
-            progressBar.visibility = View.VISIBLE
-            trackRequester.getTrack()
-        }
+        // Observer for the trackList loaded event
+        viewModel.eventTrackListLoadFinish.observe(this, { isLoadFinished ->
+            onTrackListLoadFinish(isLoadFinished)
+        })
     }
 
     override fun onResume() {
@@ -106,25 +97,23 @@ class ActivityMaster : AppCompatActivity(), TrackRequester.TrackRequesterRespons
         Handler().postDelayed( { doubleBackToExitPressedOnce = false }, DELAY_EXIT)
     }
 
-    /**
-     * Handle and start displaying track data
-     */
-    override fun receivedNewTrackList(newTrackList: ArrayList<Track>) {
-        runOnUiThread {
-            progressBar.visibility = View.INVISIBLE
+    private fun onTrackListLoadFinish(isLoadFinished: Boolean?) {
+        if (isLoadFinished != null) {
+            progressBar.visibility = View.GONE
 
-            for (index in newTrackList.indices) {
-                trackList.add(newTrackList[index])
-                adapter.notifyItemInserted(trackList.size - 1)
-            }
-
-            title = String.format(getString(R.string.main_activity_title), trackList.size)
-
-            // No result
-            if (newTrackList.isEmpty()) {
-                Toast.makeText(this, R.string.no_result, Toast.LENGTH_LONG).show()
+            if (isLoadFinished == true) {
+                updateActivityTitle()
+                if (viewModel.trackList.value.isNullOrEmpty()) {
+                    Toast.makeText(this, R.string.no_result, Toast.LENGTH_LONG).show()
+                }
+                viewModel.onTrackListLoadFinishComplete()
             }
         }
+    }
+
+    private fun updateActivityTitle() {
+        val listSize = viewModel.trackList.value?.size ?: 0
+        title = String.format(getString(R.string.main_activity_title), listSize)
     }
 
     /**
