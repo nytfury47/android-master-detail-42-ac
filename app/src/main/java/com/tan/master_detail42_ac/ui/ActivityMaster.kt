@@ -42,25 +42,8 @@ class ActivityMaster : AppCompatActivity() {
         binding.lifecycleOwner = this  // use Fragment.viewLifecycleOwner for fragments
         binding.viewmodel = viewModel
 
-        // Setup master view's components
-        updateActivityTitle()
-
-        // RecyclerView
-        val adapter = RecyclerAdapter(viewModel, this)
-        linearLayoutManager = LinearLayoutManager(this)
-        gridLayoutManager = GridLayoutManager(this, 3)
-        recyclerView.layoutManager = if (AppPreferences.isGridLayout) gridLayoutManager else linearLayoutManager
-        recyclerView.adapter = adapter
-
-        // Observer for trackList
-        viewModel.trackList.observe(this, {
-            adapter.notifyDataSetChanged()
-        })
-
-        // Observer for the trackList loaded event
-        viewModel.eventTrackListLoadFinish.observe(this, { isLoadFinished ->
-            onTrackListLoadFinish(isLoadFinished)
-        })
+        setupViews()
+        setupObservers()
     }
 
     override fun onResume() {
@@ -114,6 +97,30 @@ class ActivityMaster : AppCompatActivity() {
     private fun updateActivityTitle() {
         val listSize = viewModel.trackList.value?.size ?: 0
         title = String.format(getString(R.string.main_activity_title), listSize)
+    }
+
+    private fun setupViews() {
+        // Activity Title
+        updateActivityTitle()
+
+        // RecyclerView
+        linearLayoutManager = LinearLayoutManager(this)
+        gridLayoutManager = GridLayoutManager(this, 3)
+        recyclerView.layoutManager = if (AppPreferences.isGridLayout) gridLayoutManager else linearLayoutManager
+        recyclerView.adapter = RecyclerAdapter()
+    }
+
+    private fun setupObservers() {
+        // Observer for trackList
+        viewModel.trackList.observe(this, {
+            val adapter = recyclerView.adapter as RecyclerAdapter
+            adapter.submitList(it)
+        })
+
+        // Observer for the trackList loaded event
+        viewModel.eventTrackListLoadFinish.observe(this, { isLoadFinished ->
+            onTrackListLoadFinish(isLoadFinished)
+        })
     }
 
     /**
