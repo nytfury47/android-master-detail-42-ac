@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -11,26 +12,27 @@ import kotlinx.coroutines.launch
  */
 class MasterViewModel : ViewModel(), TrackRequester.TrackRequesterResponse {
     private val _trackList = MutableLiveData<List<Track>>(listOf())
-    private val _eventTrackListLoadFinish = MutableLiveData<Boolean?>(null)
+    private val _trackListLoadingState = MutableLiveData(
+        TrackListLoadingState.NOT_STARTED
+    )
 
     val lastVisit = AppPreferences.lastVisit
     val trackList: LiveData<List<Track>> = _trackList
-    val eventTrackListLoadFinish: LiveData<Boolean?> = _eventTrackListLoadFinish
+    val trackListLoadingState: LiveData<TrackListLoadingState> = _trackListLoadingState
 
     init {
         loadTrackList()
     }
 
     private fun loadTrackList() {
-        val trackRequester = TrackRequester(this)
-
-        viewModelScope.launch {
-            trackRequester.getTrack()
+        _trackListLoadingState.value = TrackListLoadingState.LOADING
+        viewModelScope.launch(Dispatchers.IO) {
+            TrackRequester(this@MasterViewModel).getTrack()
         }
     }
 
-    fun onTrackListLoadFinishComplete() {
-        _eventTrackListLoadFinish.value = false
+    fun onTrackListLoadingComplete() {
+        _trackListLoadingState.value = TrackListLoadingState.COMPLETE
     }
 
     /**
@@ -38,7 +40,15 @@ class MasterViewModel : ViewModel(), TrackRequester.TrackRequesterResponse {
      */
     override fun receivedNewTrackList(newTrackList: ArrayList<Track>) {
         _trackList.postValue(newTrackList)
-        _eventTrackListLoadFinish.postValue(true)
+        _trackListLoadingState.postValue(TrackListLoadingState.LOADED)
     }
 
+}
+
+enum class TrackListLoadingState {
+    NOT_STARTED,
+    LOADING,
+    LOADED,
+    COMPLETE,
+    ERROR
 }

@@ -1,9 +1,12 @@
 package com.tan.master_detail42_ac.util
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import com.tan.master_detail42_ac.R
+import com.tan.master_detail42_ac.data.TrackListLoadingState
 
 @BindingAdapter(value = ["setImageUrl"])
 fun ImageView.bindImageUrl(url: String?) {
@@ -14,4 +17,12 @@ fun ImageView.bindImageUrl(url: String?) {
             .error(R.drawable.placeholder_image)
             .into(this)
     }
+}
+
+/**
+ *  Update progress bar visibility depending on TrackListLoadingState
+ */
+@BindingAdapter("app:isProgressComplete")
+fun ProgressBar.bindVisibility(loadingState: TrackListLoadingState) {
+    this.visibility = if (loadingState == TrackListLoadingState.LOADING) View.VISIBLE else View.INVISIBLE
 }

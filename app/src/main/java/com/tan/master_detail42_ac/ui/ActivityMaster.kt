@@ -13,12 +13,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Handler
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tan.master_detail42_ac.R
 import com.tan.master_detail42_ac.data.AppPreferences
 import com.tan.master_detail42_ac.data.MasterViewModel
+import com.tan.master_detail42_ac.data.TrackListLoadingState
 import com.tan.master_detail42_ac.databinding.ActivityMasterBinding
 
 /**
@@ -80,17 +80,17 @@ class ActivityMaster : AppCompatActivity() {
         Handler().postDelayed( { doubleBackToExitPressedOnce = false }, DELAY_EXIT)
     }
 
-    private fun onTrackListLoadFinish(isLoadFinished: Boolean?) {
-        if (isLoadFinished != null) {
-            progressBar.visibility = View.GONE
+    private fun onTrackListLoadingStateChange(loadingState: TrackListLoadingState) {
+        if (loadingState == TrackListLoadingState.LOADED) {
+            trackListLoadFinish()
+            viewModel.onTrackListLoadingComplete()
+        }
+    }
 
-            if (isLoadFinished == true) {
-                updateActivityTitle()
-                if (viewModel.trackList.value.isNullOrEmpty()) {
-                    Toast.makeText(this, R.string.no_result, Toast.LENGTH_LONG).show()
-                }
-                viewModel.onTrackListLoadFinishComplete()
-            }
+    private fun trackListLoadFinish() {
+        updateActivityTitle()
+        if (viewModel.trackList.value.isNullOrEmpty()) {
+            Toast.makeText(this, R.string.no_result, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -117,9 +117,9 @@ class ActivityMaster : AppCompatActivity() {
             adapter.submitList(it)
         })
 
-        // Observer for the trackList loaded event
-        viewModel.eventTrackListLoadFinish.observe(this, { isLoadFinished ->
-            onTrackListLoadFinish(isLoadFinished)
+        // Observer for the trackList loading state
+        viewModel.trackListLoadingState.observe(this, { loadingState ->
+            onTrackListLoadingStateChange(loadingState)
         })
     }
 
