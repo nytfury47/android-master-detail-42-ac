@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.data
+package com.tan.master_detail42_ac.model
 
 import android.net.Uri.Builder
 import androidx.lifecycle.ViewModel

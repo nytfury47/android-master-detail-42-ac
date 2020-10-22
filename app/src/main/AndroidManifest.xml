@@ -15,7 +15,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.ActivitySplash"
+            android:name=".view.ActivitySplash"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,11 +24,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ActivityMaster"
+            android:name=".view.ActivityMaster"
             android:theme="@style/MainTheme">
         </activity>
         <activity
-            android:name=".ui.ActivityDetail">
+            android:name=".view.ActivityDetail">
         </activity>
 
     </application>

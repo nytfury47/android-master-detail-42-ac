@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.ui
+package com.tan.master_detail42_ac.view
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +16,9 @@ import android.os.Handler
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.AppPreferences
-import com.tan.master_detail42_ac.data.MasterViewModel
-import com.tan.master_detail42_ac.data.TrackListLoadingState
+import com.tan.master_detail42_ac.model.AppPreferences
+import com.tan.master_detail42_ac.view_model.MasterViewModel
+import com.tan.master_detail42_ac.view_model.TrackListLoadingState
 import com.tan.master_detail42_ac.databinding.ActivityMasterBinding
 
 /**

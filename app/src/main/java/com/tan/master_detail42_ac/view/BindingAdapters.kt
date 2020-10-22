@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.util
+package com.tan.master_detail42_ac.view
 
 import android.view.View
 import android.widget.ImageView
@@ -6,7 +6,7 @@ import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import com.squareup.picasso.Picasso
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.TrackListLoadingState
+import com.tan.master_detail42_ac.view_model.TrackListLoadingState
 
 @BindingAdapter(value = ["setImageUrl"])
 fun ImageView.bindImageUrl(url: String?) {

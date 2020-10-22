@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="track" type="com.tan.master_detail42_ac.data.Track" />
+        <variable name="track" type="com.tan.master_detail42_ac.model.Track" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.ui
+package com.tan.master_detail42_ac.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.AppPreferences
+import com.tan.master_detail42_ac.model.AppPreferences
 import kotlinx.android.synthetic.main.activity_splash.*
 
 /**

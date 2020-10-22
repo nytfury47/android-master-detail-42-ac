@@ -1,10 +1,10 @@
-package com.tan.master_detail42_ac.ui
+package com.tan.master_detail42_ac.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.Track
+import com.tan.master_detail42_ac.model.Track
 import kotlinx.android.synthetic.main.activity_detail.*
 
 /**

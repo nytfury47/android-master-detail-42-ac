@@ -1,14 +1,17 @@
-package com.tan.master_detail42_ac.data
+package com.tan.master_detail42_ac.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tan.master_detail42_ac.model.AppPreferences
+import com.tan.master_detail42_ac.model.Track
+import com.tan.master_detail42_ac.model.TrackRequester
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * A VM for [com.tan.master_detail42_ac.ui.ActivityMaster].
+ * A VM for [com.tan.master_detail42_ac.view.ActivityMaster].
  */
 class MasterViewModel : ViewModel(), TrackRequester.TrackRequesterResponse {
     private val _trackList = MutableLiveData<List<Track>>(listOf())
