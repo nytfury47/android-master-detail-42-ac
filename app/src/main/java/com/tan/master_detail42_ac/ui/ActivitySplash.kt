@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.view
+package com.tan.master_detail42_ac.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +10,15 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.model.AppPreferences
+import com.tan.master_detail42_ac.data.AppPreferences
+import com.tan.master_detail42_ac.ui.track_master.ActivityMaster
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_splash.*
 
 /**
  * Activity class for simple splash view during start of app
  */
+@AndroidEntryPoint
 class ActivitySplash : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

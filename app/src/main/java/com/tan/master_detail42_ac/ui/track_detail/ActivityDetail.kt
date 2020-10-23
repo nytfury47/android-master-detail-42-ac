@@ -1,15 +1,17 @@
-package com.tan.master_detail42_ac.view
+package com.tan.master_detail42_ac.ui.track_detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.model.Track
+import com.tan.master_detail42_ac.data.entity.Track
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_detail.*
 
 /**
  * Activity class for the detailed view of each track item
  */
+@AndroidEntryPoint
 class ActivityDetail : AppCompatActivity() {
 
     private var selectedTrack: Track? = null

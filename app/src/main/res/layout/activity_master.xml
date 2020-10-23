@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.tan.master_detail42_ac.view_model.MasterViewModel"/>
+            type="com.tan.master_detail42_ac.ui.track_master.MasterViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.view
+package com.tan.master_detail42_ac.ui.track_master
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +16,14 @@ import android.os.Handler
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.model.AppPreferences
-import com.tan.master_detail42_ac.view_model.MasterViewModel
-import com.tan.master_detail42_ac.view_model.TrackListLoadingState
+import com.tan.master_detail42_ac.data.AppPreferences
 import com.tan.master_detail42_ac.databinding.ActivityMasterBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Activity class for the master view of the track list from iTunes Search API
  */
+@AndroidEntryPoint
 class ActivityMaster : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var gridLayoutManager: GridLayoutManager

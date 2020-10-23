@@ -1,11 +1,11 @@
-package com.tan.master_detail42_ac.view
+package com.tan.master_detail42_ac.ui.track_master
 
 import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.tan.master_detail42_ac.model.Track
+import com.tan.master_detail42_ac.data.entity.Track
 import com.tan.master_detail42_ac.databinding.RecyclerViewItemRowBinding
 
 /**
