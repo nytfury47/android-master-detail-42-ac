@@ -10,7 +10,6 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.ui.tracklist.ActivityMaster
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -41,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
                     Handler().postDelayed({ animateLogo(tv, false) }, 500L)
                 } else {
                     tv.visibility = View.GONE
-                    startActivity(Intent(this@SplashActivity, ActivityMaster::class.java))
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                     finish()
                 }
             }

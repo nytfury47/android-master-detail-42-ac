@@ -8,6 +8,7 @@ import dagger.hilt.android.HiltAndroidApp
 class MainApplication : Application()  {
     override fun onCreate() {
         super.onCreate()
+
         // Initialize AppPreferences
         AppPreferences.init(this)
     }

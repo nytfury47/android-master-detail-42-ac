@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/trackListFragment">
+
+    <fragment
+        android:id="@+id/trackListFragment"
+        android:name="com.tan.master_detail42_ac.ui.tracklist.TrackListFragment"
+        android:label="TrackListFragment"
+        tools:layout="@layout/fragment_track_list" >
+        <action
+            android:id="@+id/actionShowDetail"
+            app:destination="@id/trackDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackDetailFragment"
+        android:name="com.tan.master_detail42_ac.ui.trackdetail.TrackDetailFragment"
+        android:label="TrackDetailFragment" >
+        <argument
+            android:name="selectedTrack"
+            app:argType="com.tan.master_detail42_ac.data.entity.Track"
+            />
+    </fragment>
+</navigation>

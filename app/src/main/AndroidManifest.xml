@@ -25,11 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.tracklist.ActivityMaster"
+            android:name=".ui.MainActivity"
             android:theme="@style/MainTheme">
-        </activity>
-        <activity
-            android:name=".ui.trackdetail.ActivityDetail">
         </activity>
 
     </application>

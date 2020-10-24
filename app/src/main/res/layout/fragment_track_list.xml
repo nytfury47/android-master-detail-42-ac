@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="viewmodel"
-            type="com.tan.master_detail42_ac.ui.tracklist.MasterViewModel"/>
+            name="viewModel"
+            type="com.tan.master_detail42_ac.ui.tracklist.TrackListViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,8 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            app:listData="@{viewModel.trackList}"
+            android:id="@+id/tracksRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
@@ -26,7 +27,7 @@
             android:layout_margin="8dp"
             android:background="#E3E3E3"
             android:fontFamily="sans-serif-medium"
-            android:text='@{"Last visit: " + viewmodel.lastVisit}'
+            android:text='@{"Last visit: " + viewModel.lastVisit}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -37,7 +38,7 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isProgressComplete="@{viewmodel.trackListLoadingState}"
+            app:isProgressComplete="@{viewModel.trackListLoadingState}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
