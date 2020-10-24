@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.ui.track_detail
+package com.tan.master_detail42_ac.ui.trackdetail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

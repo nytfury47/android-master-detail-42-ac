@@ -10,8 +10,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.TextView
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.AppPreferences
-import com.tan.master_detail42_ac.ui.track_master.ActivityMaster
+import com.tan.master_detail42_ac.ui.tracklist.ActivityMaster
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_splash.*
 
@@ -19,14 +18,11 @@ import kotlinx.android.synthetic.main.activity_splash.*
  * Activity class for simple splash view during start of app
  */
 @AndroidEntryPoint
-class ActivitySplash : AppCompatActivity() {
+class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
-        // Initialize AppPreferences (Persistence)
-        AppPreferences.init(this)
     }
 
     override fun onStart() {
@@ -45,7 +41,7 @@ class ActivitySplash : AppCompatActivity() {
                     Handler().postDelayed({ animateLogo(tv, false) }, 500L)
                 } else {
                     tv.visibility = View.GONE
-                    startActivity(Intent(this@ActivitySplash, ActivityMaster::class.java))
+                    startActivity(Intent(this@SplashActivity, ActivityMaster::class.java))
                     finish()
                 }
             }

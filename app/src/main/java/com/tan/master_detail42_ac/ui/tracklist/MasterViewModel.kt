@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.ui.track_master
+package com.tan.master_detail42_ac.ui.tracklist
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * A VM for [com.tan.master_detail42_ac.ui.track_master.ActivityMaster].
+ * A VM for [com.tan.master_detail42_ac.ui.tracklist.ActivityMaster].
  */
 class MasterViewModel @ViewModelInject constructor(
     private val tracksRepository: TrackRepository,
