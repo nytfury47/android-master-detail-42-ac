@@ -3,6 +3,7 @@ package com.tan.master_detail42_ac.ui.tracklist
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -46,10 +47,9 @@ class TrackListFragment : Fragment() {
             viewModel.onDisplayTrackDetails(it)
         })
 
-        viewModel.navigateToSelectedTrack.observe(viewLifecycleOwner, {
-            if (it != null) {
-                this.findNavController().navigate(
-                    TrackListFragmentDirections.actionShowDetail(it))
+        viewModel.navigateToSelectedTrack.observe(viewLifecycleOwner, { track ->
+            if (track != null) {
+                this.findNavController().navigate(TrackListFragmentDirections.actionShowDetail(track, track.trackName))
                 viewModel.onDisplayTrackDetailsComplete()
             }
         })
@@ -90,20 +90,15 @@ class TrackListFragment : Fragment() {
     }
 
     private fun trackListLoadFinish() {
-        updateActivityTitle()
+        updateFragmentLabel()
         if (viewModel.trackList.value.isNullOrEmpty()) {
             Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun updateActivityTitle() {
-        val listSize = viewModel.trackList.value?.size ?: 0
-        activity?.title = String.format(getString(R.string.main_activity_title), listSize)
-    }
-
     private fun setupViews() {
-        // Activity Title
-        updateActivityTitle()
+        // Fragment Label
+        updateFragmentLabel()
 
         // RecyclerView
         linearLayoutManager = LinearLayoutManager(activity)
@@ -122,6 +117,11 @@ class TrackListFragment : Fragment() {
         viewModel.trackListLoadingState.observe(viewLifecycleOwner, { loadingState ->
             onTrackListLoadingStateChange(loadingState)
         })
+    }
+
+    private fun updateFragmentLabel() {
+        val listSize = viewModel.trackList.value?.size ?: 0
+        (activity as AppCompatActivity?)?.supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
     }
 
     /**

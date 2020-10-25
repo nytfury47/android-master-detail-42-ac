@@ -16,10 +16,14 @@
     <fragment
         android:id="@+id/trackDetailFragment"
         android:name="com.tan.master_detail42_ac.ui.trackdetail.TrackDetailFragment"
-        android:label="TrackDetailFragment" >
+        android:label="{fragmentLabel}" >
         <argument
             android:name="selectedTrack"
             app:argType="com.tan.master_detail42_ac.data.entity.Track"
             />
+        <argument
+            android:name="fragmentLabel"
+            app:argType="string"
+            android:defaultValue="Track Detail" />
     </fragment>
 </navigation>
