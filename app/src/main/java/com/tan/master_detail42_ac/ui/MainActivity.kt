@@ -47,6 +47,11 @@ class MainActivity : AppCompatActivity() {
      * Confirm exit from app
      */
     override fun onBackPressed() {
+        if (navController.currentDestination?.id != R.id.trackListFragment) {
+            super.onBackPressed()
+            return
+        }
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
             return
