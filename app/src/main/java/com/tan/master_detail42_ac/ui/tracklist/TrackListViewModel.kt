@@ -19,7 +19,7 @@ class TrackListViewModel @ViewModelInject constructor(
     private val _trackListLoadingState = MutableLiveData(TrackListLoadingState.NOT_STARTED)
     private val _navigateToSelectedTrack = MutableLiveData<Track>()
 
-    val lastVisit = AppPreferences.lastVisit
+    val lastFetch = AppPreferences.lastFetch
     val trackList: LiveData<List<Track>> = _trackList
     val trackListLoadingState: LiveData<TrackListLoadingState> = _trackListLoadingState
     val navigateToSelectedTrack: LiveData<Track> = _navigateToSelectedTrack
