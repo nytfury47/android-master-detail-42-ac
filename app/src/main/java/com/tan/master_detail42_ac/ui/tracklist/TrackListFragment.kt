@@ -121,7 +121,7 @@ class TrackListFragment : Fragment() {
 
     private fun updateFragmentLabel() {
         val listSize = viewModel.trackList.value?.size ?: 0
-        (activity as AppCompatActivity?)?.supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
+        (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
     }
 
     /**
