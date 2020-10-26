@@ -26,4 +26,9 @@
             app:argType="string"
             android:defaultValue="Track Detail" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.tan.master_detail42_ac.ui.about.AboutFragment"
+        android:label="@string/about_label"
+        tools:layout="@layout/fragment_about" />
 </navigation>

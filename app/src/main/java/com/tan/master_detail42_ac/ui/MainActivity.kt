@@ -8,10 +8,13 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.tan.master_detail42_ac.R
+import com.tan.master_detail42_ac.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -21,20 +24,25 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var navController: NavController
+    private lateinit var drawerLayout: DrawerLayout
 
     /**
      * Set the content view that contains the Navigation Host.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
+
+        drawerLayout = binding.drawerLayout
         navController = navHostFragment.navController
-        NavigationUI.setupActionBarWithNavController(this, navController)
+
+        NavigationUI.setupActionBarWithNavController(this,navController, drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView, navController)
     }
 
-    override fun onSupportNavigateUp() = navController.navigateUp()
+    override fun onSupportNavigateUp() = NavigationUI.navigateUp(navController, drawerLayout)
 
     override fun onResume() {
         super.onResume()

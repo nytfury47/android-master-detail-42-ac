@@ -11,4 +11,6 @@
     <string name="txt_activity_detail_track_price">Price: $%1$S</string>
     <string name="txt_activity_detail_track_genre">Genre: %1$S</string>
     <string name="txt_activity_detail_track_description_label">Description:</string>
+    <string name="about_label">About</string>
+    <string name="about_text">Master-Detail App using Android Architecture Components</string>
 </resources>
