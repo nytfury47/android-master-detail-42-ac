@@ -14,8 +14,8 @@ class TrackListViewModel @ViewModelInject constructor(
     private val tracksRepository: TrackRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _trackList = MutableLiveData<List<Track>>(listOf())
-    private val _trackListLoadingState = MutableLiveData(TrackListLoadingState.NOT_STARTED)
+    private val _trackList = MutableLiveData<List<Track>>()
+    private val _trackListLoadingState = MutableLiveData<TrackListLoadingState>()
     private val _navigateToSelectedTrack = MutableLiveData<Track>()
 
     val trackList: LiveData<List<Track>> = _trackList
@@ -31,16 +31,12 @@ class TrackListViewModel @ViewModelInject constructor(
             _trackListLoadingState.value = TrackListLoadingState.LOADING
             try {
                 _trackList.value = tracksRepository.fetchTracks()
-                _trackListLoadingState.value = TrackListLoadingState.LOADED
+                _trackListLoadingState.value = TrackListLoadingState.SUCCESS
             } catch (e: Exception) {
                 _trackListLoadingState.value = TrackListLoadingState.ERROR
                 _trackList.value = listOf()
             }
         }
-    }
-
-    fun onTrackListLoadingComplete() {
-        _trackListLoadingState.value = TrackListLoadingState.COMPLETE
     }
 
     fun onDisplayTrackDetails(track: Track) {
@@ -54,9 +50,7 @@ class TrackListViewModel @ViewModelInject constructor(
 }
 
 enum class TrackListLoadingState {
-    NOT_STARTED,
     LOADING,
-    LOADED,
-    COMPLETE,
+    SUCCESS,
     ERROR
 }

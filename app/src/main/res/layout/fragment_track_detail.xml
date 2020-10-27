@@ -34,7 +34,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="6dp"
-                android:text='@{"Title: $" + viewModel.selectedTrack.trackName}' />
+                android:text='@{"Title: " + viewModel.selectedTrack.trackName}' />
 
             <TextView
                 android:id="@+id/trackPrice"

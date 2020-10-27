@@ -18,7 +18,8 @@
             android:id="@+id/tracksRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            tools:listitem="@layout/fragment_track_list_recycler_view_item_row" />
 
         <ProgressBar
             android:id="@+id/progressBar"

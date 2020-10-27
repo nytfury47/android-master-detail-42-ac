@@ -30,8 +30,11 @@ fun ProgressBar.bindVisibility(loadingState: TrackListLoadingState) {
     this.visibility = if (loadingState == TrackListLoadingState.LOADING) View.VISIBLE else View.INVISIBLE
 }
 
+/**
+ * When there is no Track property data (data is null), hide the [RecyclerView], otherwise show it.
+ */
 @BindingAdapter("app:listData")
-fun RecyclerView.bindData(data: List<Track>) {
+fun RecyclerView.bindData(data: List<Track>?) {
     val adapter = this.adapter as TrackListAdapter
     adapter.submitList(data)
 }

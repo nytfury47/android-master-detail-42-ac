@@ -32,7 +32,8 @@ class TrackListFragment : Fragment() {
 
     /**
      * Inflates the layout with Data Binding, sets its lifecycle owner to the TrackListFragment
-     * to enable Data Binding to observe LiveData, and sets up the RecyclerView with an adapter.
+     * to enable Data Binding to observe LiveData, and sets up the RecyclerView with an adapter,
+     * and other views
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,27 +41,32 @@ class TrackListFragment : Fragment() {
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
+
         // Giving the binding access to the TrackListViewModel
         binding.viewModel = viewModel
-        // Sets the adapter of the trackList RecyclerView
+
+        // RecyclerView setup
+        linearLayoutManager = LinearLayoutManager(activity)
+        gridLayoutManager = GridLayoutManager(activity, 3)
+        binding.tracksRecyclerView.layoutManager = if (AppPreferences.isGridLayout) gridLayoutManager else linearLayoutManager
         binding.tracksRecyclerView.adapter = TrackListAdapter(TrackListAdapter.OnClickListener {
             viewModel.onDisplayTrackDetails(it)
         })
 
+        // For change layout option menu
         setHasOptionsMenu(true)
+
+        // Setup ViewModel observers
+        setObservers()
+
+        // Updating the Action Bar title
+        setActionBarTitle()
 
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupViews()
-        setupObservers()
-    }
-
     /**
-     * Inflates the overflow menu that contains filtering options.
+     * Inflates the overflow menu that contains the change layout option.
      */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
@@ -75,37 +81,7 @@ class TrackListFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun onTrackListLoadingStateChange(loadingState: TrackListLoadingState) {
-        if (loadingState == TrackListLoadingState.LOADED) {
-            trackListLoadFinish()
-            viewModel.onTrackListLoadingComplete()
-        }
-    }
-
-    private fun trackListLoadFinish() {
-        updateFragmentLabel()
-        if (viewModel.trackList.value.isNullOrEmpty()) {
-            Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun setupViews() {
-        // Fragment Label
-        updateFragmentLabel()
-
-        // RecyclerView
-        linearLayoutManager = LinearLayoutManager(activity)
-        gridLayoutManager = GridLayoutManager(activity, 3)
-        tracksRecyclerView.layoutManager = if (AppPreferences.isGridLayout) gridLayoutManager else linearLayoutManager
-    }
-
-    private fun setupObservers() {
-        // Observer for trackList
-        viewModel.trackList.observe(viewLifecycleOwner, {
-            val adapter = tracksRecyclerView.adapter as TrackListAdapter
-            adapter.submitList(it)
-        })
-
+    private fun setObservers() {
         // Observer for the trackList loading state
         viewModel.trackListLoadingState.observe(viewLifecycleOwner, { loadingState ->
             onTrackListLoadingStateChange(loadingState)
@@ -120,7 +96,23 @@ class TrackListFragment : Fragment() {
         })
     }
 
-    private fun updateFragmentLabel() {
+    private fun onTrackListLoadingStateChange(loadingState: TrackListLoadingState) {
+        if (loadingState == TrackListLoadingState.SUCCESS) {
+            trackListLoadComplete()
+        } else if (loadingState == TrackListLoadingState.ERROR) {
+            Toast.makeText(activity, R.string.error_result, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun trackListLoadComplete() {
+        setActionBarTitle()
+
+        if (viewModel.trackList.value.isNullOrEmpty()) {
+            Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun setActionBarTitle() {
         val listSize = viewModel.trackList.value?.size ?: 0
         (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
     }

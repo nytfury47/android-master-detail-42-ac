@@ -48,7 +48,7 @@ class TrackListAdapter(private val onClickListener: OnClickListener) :
      */
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): TrackViewHolder {
-        return TrackViewHolder(FragmentTrackListRecyclerViewItemRowBinding.inflate(LayoutInflater.from(parent.context)))
+        return TrackViewHolder(FragmentTrackListRecyclerViewItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     /**
