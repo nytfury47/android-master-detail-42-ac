@@ -47,16 +47,16 @@ class TrackListFragment : Fragment() {
             viewModel.onDisplayTrackDetails(it)
         })
 
-        viewModel.navigateToSelectedTrack.observe(viewLifecycleOwner, { track ->
-            if (track != null) {
-                this.findNavController().navigate(TrackListFragmentDirections.actionShowDetail(track, track.trackName))
-                viewModel.onDisplayTrackDetailsComplete()
-            }
-        })
-
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupViews()
+        setupObservers()
     }
 
     /**
@@ -73,13 +73,6 @@ class TrackListFragment : Fragment() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupViews()
-        setupObservers()
     }
 
     private fun onTrackListLoadingStateChange(loadingState: TrackListLoadingState) {
@@ -116,6 +109,14 @@ class TrackListFragment : Fragment() {
         // Observer for the trackList loading state
         viewModel.trackListLoadingState.observe(viewLifecycleOwner, { loadingState ->
             onTrackListLoadingStateChange(loadingState)
+        })
+
+        // Observer for action to move from master to detail
+        viewModel.navigateToSelectedTrack.observe(viewLifecycleOwner, { track ->
+            if (track != null) {
+                this.findNavController().navigate(TrackListFragmentDirections.actionShowDetail(track, track.trackName))
+                viewModel.onDisplayTrackDetailsComplete()
+            }
         })
     }
 
