@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.tan.master_detail42_ac.R
+import com.tan.master_detail42_ac.data.AppPreferences
 import com.tan.master_detail42_ac.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         drawerLayout = binding.drawerLayout
         navController = navHostFragment.navController
+        binding.lastVisit.text = String.format(getString(R.string.app_last_visit), AppPreferences.lastVisit)
 
         NavigationUI.setupActionBarWithNavController(this,navController, drawerLayout)
         NavigationUI.setupWithNavController(binding.navView, navController)

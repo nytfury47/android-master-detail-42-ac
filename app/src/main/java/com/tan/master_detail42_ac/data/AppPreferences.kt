@@ -15,18 +15,18 @@ object AppPreferences {
     private lateinit var kPrefs: SharedPreferences
 
     // App-specific preferences and their default values
-    private val kLastFetch = Pair("LastFetch", getCurrentDateTime())
+    private val kLastVisit = Pair("LastVisit", getCurrentDateTime())
     private val kGridLayout = Pair("IsGridLayout", true)
 
-    var lastFetch: String
+    var lastVisit: String
         // custom getter to get a preference of a desired type, with a predefined default value
         get() {
-            val ret = kPrefs.getString(kLastFetch.first, kLastFetch.second) ?: getCurrentDateTime()
-            lastFetch = getCurrentDateTime()
+            val ret = kPrefs.getString(kLastVisit.first, kLastVisit.second) ?: getCurrentDateTime()
+            lastVisit = getCurrentDateTime()
             return ret
         }
         // custom setter to save a preference back to preferences file
-        set(value) = kPrefs.edit { it.putString(kLastFetch.first, value) }
+        set(value) = kPrefs.edit { it.putString(kLastVisit.first, value) }
 
     var isGridLayout: Boolean
         get() = kPrefs.getBoolean(kGridLayout.first, kGridLayout.second)
@@ -50,7 +50,7 @@ object AppPreferences {
     }
 
     /**
-     * Helper function for getting the date/time the app last fetched the track list
+     * Helper function for getting the date/time the app was last visited
      */
     private fun getCurrentDateTime() = SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault()).format(
         Calendar.getInstance().time)
