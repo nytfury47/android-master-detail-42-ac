@@ -3,7 +3,6 @@ package com.tan.master_detail42_ac.ui.tracklist
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.tan.master_detail42_ac.data.AppPreferences
 import com.tan.master_detail42_ac.data.entity.Track
 import com.tan.master_detail42_ac.data.TrackRepository
 import kotlinx.coroutines.launch
