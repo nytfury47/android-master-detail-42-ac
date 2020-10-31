@@ -7,7 +7,10 @@ import com.tan.master_detail42_ac.util.Resource.Status.*
 import kotlinx.coroutines.Dispatchers
 
 /**
- * For the TrackRepository and the caching strategy
+ * For the TrackRepository and the caching strategy.
+ * First try to get our data from the local data source (AppDatabase) if available.
+ * To keep the app synced, we also fetch data from the remote data source (TrackRemoteDataSource).
+ * Finally, save the result from the remote call in the database, in order to keep it updated.
  */
 fun <T, A> performGetOperation(databaseQuery: () -> LiveData<T>,
                                networkCall: suspend () -> Resource<A>,
@@ -20,7 +23,6 @@ fun <T, A> performGetOperation(databaseQuery: () -> LiveData<T>,
         val responseStatus = networkCall.invoke()
         if (responseStatus.status == SUCCESS) {
             saveCallResult(responseStatus.data!!)
-
         } else if (responseStatus.status == ERROR) {
             emit(Resource.error(responseStatus.message!!))
             emitSource(source)

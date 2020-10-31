@@ -22,11 +22,10 @@ private const val TRACK_DESCRIPTION = "Track Description"
 @Entity(tableName = "tracks")
 @Parcelize
 data class Track(
-    val trackName: String = TRACK_NAME,
+    @PrimaryKey val trackName: String = TRACK_NAME,
     // used to map artworkUrl100 from the JSON to imgSrcUrl in our class
     @Json(name = "artworkUrl100") val artwork: String = TRACK_IMAGE,
     @Json(name = "trackPrice") val price: Double = TRACK_PRICE,
     @Json(name = "primaryGenreName") val genre: String = TRACK_GENRE,
     @Json(name = "longDescription") val description: String = TRACK_DESCRIPTION,
-    @PrimaryKey(autoGenerate = true) var id: Int = 0
 ) : Parcelable

@@ -1,8 +1,10 @@
 package com.tan.master_detail42_ac.ui.tracklist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tan.master_detail42_ac.R
 import com.tan.master_detail42_ac.data.local.AppPreferences
 import com.tan.master_detail42_ac.databinding.FragmentTrackListBinding
+import com.tan.master_detail42_ac.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_track_list.*
 
@@ -81,9 +84,20 @@ class TrackListFragment : Fragment() {
     }
 
     private fun setObservers() {
-        // Observer for the trackList loading state
-        viewModel.trackListLoadingState.observe(viewLifecycleOwner, { loadingState ->
-            onTrackListLoadingStateChange(loadingState)
+        // Observer for the trackList LiveData value
+        viewModel.trackList.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    setActionBarTitle()
+                    if (viewModel.trackList.value?.data.isNullOrEmpty()) {
+                        Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
+                    }
+                }
+                Resource.Status.ERROR ->
+                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                Resource.Status.LOADING ->
+                    Log.i("TAG", "Loading track list...")
+            }
         })
 
         // Observer for action to move from master to detail
@@ -95,25 +109,9 @@ class TrackListFragment : Fragment() {
         })
     }
 
-    private fun onTrackListLoadingStateChange(loadingState: TrackListLoadingState) {
-        if (loadingState == TrackListLoadingState.SUCCESS) {
-            trackListLoadComplete()
-        } else if (loadingState == TrackListLoadingState.ERROR) {
-            Toast.makeText(activity, R.string.error_result, Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun trackListLoadComplete() {
-        setActionBarTitle()
-
-//        if (viewModel.trackList.value.isNullOrEmpty()) {
-//            Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
-//        }
-    }
-
     private fun setActionBarTitle() {
-//        val listSize = viewModel.trackList.value?.size ?: 0
-//        (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
+        val listSize = viewModel.trackList.value?.data?.size ?: 0
+        (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
     }
 
     /**
