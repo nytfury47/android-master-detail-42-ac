@@ -1,4 +1,4 @@
-package com.tan.master_detail42_ac.data
+package com.tan.master_detail42_ac.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Persistence mechanism for saving and reusing data within the app.
- * Using Singleton design pattern which is very helpful for checking/using persistent data.
+ * Another persistence mechanism (SharedPreferences) for saving and reusing data within the app,
+ * using Singleton design pattern.
  */
 object AppPreferences {
     private const val SHARED_PREFS_NAME = "MD42_AC_Preferences"
@@ -54,5 +54,4 @@ object AppPreferences {
      */
     private fun getCurrentDateTime() = SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.getDefault()).format(
         Calendar.getInstance().time)
-
 }

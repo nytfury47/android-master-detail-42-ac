@@ -1,6 +1,8 @@
 package com.tan.master_detail42_ac.data.entity
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
@@ -14,7 +16,10 @@ private const val TRACK_DESCRIPTION = "Track Description"
  * This data class defines a Track property which includes the track name, the track image URL, the
  * the track price, the track genre, and the track description.
  * The property names of this data class are used by Moshi to match the names of values in JSON.
+ *
+ * This is also the model class that represents the 'tracks' table in a Room database (AppDatabase).
  */
+@Entity(tableName = "tracks")
 @Parcelize
 data class Track(
     val trackName: String = TRACK_NAME,
@@ -22,5 +27,6 @@ data class Track(
     @Json(name = "artworkUrl100") val artwork: String = TRACK_IMAGE,
     @Json(name = "trackPrice") val price: Double = TRACK_PRICE,
     @Json(name = "primaryGenreName") val genre: String = TRACK_GENRE,
-    @Json(name = "longDescription") val description: String = TRACK_DESCRIPTION
+    @Json(name = "longDescription") val description: String = TRACK_DESCRIPTION,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
 ) : Parcelable

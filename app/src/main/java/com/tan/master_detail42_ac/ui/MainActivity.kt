@@ -14,12 +14,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.AppPreferences
+import com.tan.master_detail42_ac.data.local.AppPreferences
 import com.tan.master_detail42_ac.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Activity class for the master view of the track list from iTunes Search API
+ * The app's main activity
  */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

@@ -3,14 +3,13 @@ package com.tan.master_detail42_ac.ui.tracklist
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tan.master_detail42_ac.R
-import com.tan.master_detail42_ac.data.AppPreferences
+import com.tan.master_detail42_ac.data.local.AppPreferences
 import com.tan.master_detail42_ac.databinding.FragmentTrackListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_track_list.*
@@ -107,14 +106,14 @@ class TrackListFragment : Fragment() {
     private fun trackListLoadComplete() {
         setActionBarTitle()
 
-        if (viewModel.trackList.value.isNullOrEmpty()) {
-            Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
-        }
+//        if (viewModel.trackList.value.isNullOrEmpty()) {
+//            Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
+//        }
     }
 
     private fun setActionBarTitle() {
-        val listSize = viewModel.trackList.value?.size ?: 0
-        (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
+//        val listSize = viewModel.trackList.value?.size ?: 0
+//        (activity as AppCompatActivity).supportActionBar?.title = String.format(getString(R.string.main_activity_title), listSize)
     }
 
     /**

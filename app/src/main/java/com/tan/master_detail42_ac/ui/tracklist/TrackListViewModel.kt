@@ -4,40 +4,40 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.tan.master_detail42_ac.data.entity.Track
-import com.tan.master_detail42_ac.data.TrackRepository
-import kotlinx.coroutines.launch
+import com.tan.master_detail42_ac.data.repository.TrackRepository
 
 /**
  * A VM for [com.tan.master_detail42_ac.ui.tracklist.TrackListFragment].
  */
 class TrackListViewModel @ViewModelInject constructor(
-    private val tracksRepository: TrackRepository,
+    repository: TrackRepository,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _trackList = MutableLiveData<List<Track>>()
     private val _trackListLoadingState = MutableLiveData<TrackListLoadingState>()
     private val _navigateToSelectedTrack = MutableLiveData<Track>()
 
-    val trackList: LiveData<List<Track>> = _trackList
+    //val trackList: LiveData<List<Track>> = _trackList
+    val trackList = repository.getTracks()
     val trackListLoadingState: LiveData<TrackListLoadingState> = _trackListLoadingState
     val navigateToSelectedTrack: LiveData<Track> = _navigateToSelectedTrack
 
-    init {
-        loadTrackList()
-    }
+//    init {
+//        loadTrackList()
+//    }
 
-    private fun loadTrackList() {
-        viewModelScope.launch {
-            _trackListLoadingState.value = TrackListLoadingState.LOADING
-            try {
-                _trackList.value = tracksRepository.fetchTracks()
-                _trackListLoadingState.value = TrackListLoadingState.SUCCESS
-            } catch (e: Exception) {
-                _trackListLoadingState.value = TrackListLoadingState.ERROR
-                _trackList.value = listOf()
-            }
-        }
-    }
+//    private fun loadTrackList() {
+//        viewModelScope.launch {
+//            _trackListLoadingState.value = TrackListLoadingState.LOADING
+//            try {
+//                _trackList.value = tracksRepository.fetchTracks()
+//                _trackListLoadingState.value = TrackListLoadingState.SUCCESS
+//            } catch (e: Exception) {
+//                _trackListLoadingState.value = TrackListLoadingState.ERROR
+//                _trackList.value = listOf()
+//            }
+//        }
+//    }
 
     fun onDisplayTrackDetails(track: Track) {
         _navigateToSelectedTrack.value = track

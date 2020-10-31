@@ -9,8 +9,11 @@ import com.squareup.picasso.Picasso
 import com.tan.master_detail42_ac.R
 import com.tan.master_detail42_ac.data.entity.Track
 import com.tan.master_detail42_ac.ui.tracklist.TrackListAdapter
-import com.tan.master_detail42_ac.ui.tracklist.TrackListLoadingState
+import com.tan.master_detail42_ac.util.Resource
 
+/**
+ *  Use Picasso to load the track image into the ImageView
+ */
 @BindingAdapter(value = ["setImageUrl"])
 fun ImageView.bindImageUrl(url: String?) {
     if (url != null && url.isNotBlank()) {
@@ -23,11 +26,11 @@ fun ImageView.bindImageUrl(url: String?) {
 }
 
 /**
- *  Update progress bar visibility depending on TrackListLoadingState
+ *  Update progress bar visibility depending on resource status
  */
 @BindingAdapter("app:isProgressComplete")
-fun ProgressBar.bindVisibility(loadingState: TrackListLoadingState) {
-    this.visibility = if (loadingState == TrackListLoadingState.LOADING) View.VISIBLE else View.INVISIBLE
+fun ProgressBar.bindVisibility(status: Resource.Status?) {
+    this.visibility = if (status == null || status == Resource.Status.LOADING) View.VISIBLE else View.INVISIBLE
 }
 
 /**

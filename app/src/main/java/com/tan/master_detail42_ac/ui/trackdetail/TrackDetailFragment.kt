@@ -16,7 +16,6 @@ import com.tan.master_detail42_ac.databinding.FragmentTrackDetailBinding
 class TrackDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         val application = requireNotNull(activity).application
         val binding = FragmentTrackDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
