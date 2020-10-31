@@ -6,7 +6,7 @@
     <string name="check_internet">There is an issue with the network connection. Please check your settings and try again.</string>
     <string name="toast_a_backToExit">Press Back again to exit.</string>
     <string name="image_description">Image Description</string>
-    <string name="no_result">No tracks found.</string>
+    <string name="fetch_tracks">Fetching tracks from remote data source..</string>
     <string name="txt_activity_detail_track_description_label">Description:</string>
     <string name="about_label">About</string>
     <string name="about_text">Master-Detail App using Android Architecture Components</string>

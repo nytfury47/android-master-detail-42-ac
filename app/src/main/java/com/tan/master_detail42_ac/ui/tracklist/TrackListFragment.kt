@@ -87,16 +87,16 @@ class TrackListFragment : Fragment() {
         // Observer for the trackList LiveData value
         viewModel.trackList.observe(viewLifecycleOwner, {
             when (it.status) {
+                Resource.Status.LOADING ->
+                    Log.i("TAG", "Loading track list...")
                 Resource.Status.SUCCESS -> {
                     setActionBarTitle()
                     if (viewModel.trackList.value?.data.isNullOrEmpty()) {
-                        Toast.makeText(activity, R.string.no_result, Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, R.string.fetch_tracks, Toast.LENGTH_LONG).show()
                     }
                 }
                 Resource.Status.ERROR ->
-                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-                Resource.Status.LOADING ->
-                    Log.i("TAG", "Loading track list...")
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
         })
 
